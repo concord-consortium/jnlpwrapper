@@ -31,7 +31,5 @@
     <property name="jnlp.skip_not_found_dialog" value="true"/>
     <property name="jnlp.install_if_not_found" value="true"/>
   </resources>
-  <application-desc main-class='org.concord.LaunchJnlp'>
-    <argument>__CONFIG_URL__</argument>
-  </application-desc>
+  <application-desc main-class='org.concord.LaunchJnlp' />
 </jnlp>
