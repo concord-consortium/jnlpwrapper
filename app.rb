@@ -1,16 +1,17 @@
 require 'rubygems'
-require 'sinatra'
-require File.dirname(__FILE__) + '/lib/config'
+require 'bundler'
+
+Bundler.require
+
 require File.dirname(__FILE__) +'/lib/wrapper'
 
-# set :static, true
-set :public, File.dirname(__FILE__) + '/public'
-set :install_template, File.dirname(__FILE__) + '/templates/install.jnlp'
-set :jcl_template, File.dirname(__FILE__) + '/templates/jcl.jnlp'
-mime :jnlp, 'application/x-java-jnlp-file'
+configure do
+  set :public_folder, File.dirname(__FILE__) + '/public'
+  mime_type :jnlp, 'application/x-java-jnlp-file'
 
-Wrapper.add_template(:install, open(install_template).read)
-Wrapper.add_template(:jcl, open(jcl_template).read)
+  Wrapper.add_template(:install, open(File.dirname(__FILE__) + '/templates/install.jnlp').read)
+  Wrapper.add_template(:jcl, open(File.dirname(__FILE__) + '/templates/jcl.jnlp').read)
+end
 
 def raw_post
   request.env["rack.input"].read

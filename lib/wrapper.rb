@@ -3,6 +3,8 @@ module Wrapper
   require 'cgi'
   require 'rexml/document'
 
+  INSTALL_APP = "http://install.diy.concord.org"
+
   @@template_content = {}
   def self.add_template(type, content)
     @@template_content[type] = content
