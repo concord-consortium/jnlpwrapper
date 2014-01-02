@@ -2,44 +2,37 @@ module Wrapper
   require 'open-uri'
   require 'cgi'
   require 'rexml/document'
-  
-  @@template_content = ""
-  def self.template_content=(content)
-    @@template_content = content
-  end
-  
-  def self.wrap(wrapped_jnlp, href, vendor, project, version, old_versions, default_jnlp, max_heap)
-  	max_heap = "128" unless max_heap
-    url_base = href.sub(/[^\/]+\/[^\/]+\.jnlp.*$/, "")
-    not_found = "#{INSTALL_APP}/#{project}/#{version}"
 
-    #wrapped_jnlp = "#{url_base}unwrap?"
-    #wrapped_jnlp << "title=#{project}%20#{version}"
-    #wrapped_jnlp << "&amp;description=#{project}%20#{version}%20Launcher"
-    #wrapped_jnlp << "&amp;vendor=#{vendor}"
-    #wrapped_jnlp << "&amp;homepage=#{project}.concord.org"
-    #wrapped_jnlp << "&amp;href=#{url_base}unwrap"
-    #wrapped_jnlp << "&amp;jnlp=#{jnlp}"
-    
-    wrapped_content = @@template_content.gsub("${vendor}", vendor)
-    wrapped_content.gsub!("${project}", project)
-    wrapped_content.gsub!("${version}", version)
-    wrapped_content.gsub!("${href}", href)
-    wrapped_content.gsub!("${not_found}", not_found)
-    wrapped_content.gsub!("${max_heap}", max_heap)
+  @@template_content = {}
+  def self.add_template(type, content)
+    @@template_content[type] = content
+  end
+
+  def self.get_template_copy(type)
+    (@@template_content[type] || "").dup
+  end
+
+  def self.wrap(opts = {}) # wrapped_jnlp, href, vendor, project, version, old_versions, default_jnlp, max_heap
+    raise "Missing required option :href" unless opts[:href]
+    raise "Missing required option :vendor" unless opts[:vendor]
+    raise "Missing required option :project" unless opts[:project]
+    raise "Missing required option :version" unless opts[:version]
+    raise "Missing required option :template" unless opts[:template]
+    opts = {
+      :max_heap => 128,
+      :url_base => (opts[:href] || "").sub(/[^\/]+\/[^\/]+\.jnlp.*$/, ""),
+      :not_found => "#{INSTALL_APP}/#{project}/#{version}"
+    }.merge(opts)
+
+    wrapped_content = get_template_copy(opts[:template])
+    [:vendor, :project, :version, :href, :not_found, :max_heap].each do |sym|
+      wrapped_content.gsub!("${#{sym.to_s}}", opts[sym]) if opts[sym]
+    end
 
     optional_props = ""
-    if old_versions
-      optional_props += "<property name=\"product_old_versions\" value=\"#{old_versions}\" />\n"
-    end
-
-    if wrapped_jnlp
-      optional_props += "<property name=\"wrapped_jnlp\" value=\"#{wrapped_jnlp}\" />\n"
-    end    
-
-    if default_jnlp
-      optional_props += "<property name=\"default_jnlp\" value=\"#{default_jnlp}\" />\n"
-    end
+    optional_props += "<property name=\"product_old_versions\" value=\"#{opts[:old_versions]}\" />\n" if opts[:old_versions]
+    optional_props += "<property name=\"wrapped_jnlp\" value=\"#{opts[:wrapped_jnlp]}\" />\n" if opts[:wrapped_jnlp]
+    optional_props += "<property name=\"default_jnlp\" value=\"#{opts[:default_jnlp]}\" />\n" if opts[:default_jnlp]
 
     wrapped_content.gsub!("${optional_props}", optional_props)
 
