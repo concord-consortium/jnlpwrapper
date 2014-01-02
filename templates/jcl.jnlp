@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<jnlp spec="1.0+" codebase="http://jnlp.concord.org/dev3">
+  <information>
+    <title>${project} ${version}</title>
+    <vendor>${vendor}</vendor>
+    <homepage href="index.html"/>
+    <description>${project} ${version} Launcher</description>
+  </information>
+  <security>
+    <all-permissions />
+  </security>
+  <resources os="Mac OS X" arch="ppc i386">
+    <j2se version="1.5" max-heap-size="512m" initial-heap-size="32m"/>
+  </resources>
+  <resources os="Mac OS X" arch="x86_64">
+    <j2se version="1.7" max-heap-size="512m" initial-heap-size="32m"/>
+    <j2se version="1.5" max-heap-size="512m" initial-heap-size="32m" java-vm-args="-d32"/>
+  </resources>
+  <resources os="Mac OS X">
+    <j2se version="1.7" max-heap-size="512m" initial-heap-size="32m"/>
+    <j2se version="1.6" max-heap-size="512m" initial-heap-size="32m" java-vm-args="-d32"/>
+  </resources>
+  <resources>
+    <j2se version="1.5+" max-heap-size="512m" initial-heap-size="32m"/>
+    <jar href="org/concord/utilities/response-cache/response-cache-0.1.0-20110101.051026-218.jar"/>
+    <jar href="org/concord/jnlp2shell/jnlp2shell-1.0-20131031.044124-462.jar" main="true"/>
+    ${optional_props}
+    <property name="jnlp.vendor" value="${vendor}"/>
+    <property name="jnlp.product_name" value="${project}"/>
+    <property name="jnlp.product_version" value="${version}"/>
+    <property name="jnlp.skip_not_found_dialog" value="true"/>
+    <property name="jnlp.install_if_not_found" value="true"/>
+  </resources>
+  <application-desc main-class='org.concord.LaunchJnlp'>
+    <argument>__CONFIG_URL__</argument>
+  </application-desc>
+</jnlp>
