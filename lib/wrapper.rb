@@ -23,12 +23,12 @@ module Wrapper
     opts = {
       :max_heap => 128,
       :url_base => (opts[:href] || "").sub(/[^\/]+\/[^\/]+\.jnlp.*$/, ""),
-      :not_found => "#{INSTALL_APP}/#{project}/#{version}"
+      :not_found => "#{INSTALL_APP}/#{opts[:project]}/#{opts[:version]}"
     }.merge(opts)
 
     wrapped_content = get_template_copy(opts[:template])
     [:vendor, :project, :version, :href, :not_found, :max_heap].each do |sym|
-      wrapped_content.gsub!("${#{sym.to_s}}", opts[sym]) if opts[sym]
+      wrapped_content.gsub!("${#{sym.to_s}}", opts[sym].to_s) if opts[sym]
     end
 
     optional_props = ""
