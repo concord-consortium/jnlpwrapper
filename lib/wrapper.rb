@@ -2,6 +2,9 @@ module Wrapper
   require 'open-uri'
   require 'cgi'
   require 'rexml/document'
+  require 'stringio'
+  require 'base64'
+  require 'zlib'
 
   INSTALL_APP = "http://install.diy.concord.org"
 
@@ -12,6 +15,14 @@ module Wrapper
 
   def self.get_template_copy(type)
     (@@template_content[type] || "").dup
+  end
+
+  def self.encode(str)
+    out = StringIO.new
+    gz = Zlib::GzipWriter.new(out)
+    gz.write str
+    gz.close
+    Base64.encode64(out.string).gsub(/\n/, '')
   end
 
   def self.wrap(opts = {}) # wrapped_jnlp, href, vendor, project, version, old_versions, default_jnlp, max_heap
@@ -33,7 +44,7 @@ module Wrapper
 
     optional_props = ""
     optional_props += "<property name=\"jnlp.product_old_versions\" value=\"#{opts[:old_versions]}\" />\n" if opts[:old_versions]
-    optional_props += "<property name=\"jnlp.wrapped_jnlp\" value=\"#{opts[:wrapped_jnlp]}\" />\n" if opts[:wrapped_jnlp]
+    optional_props += "<property name=\"jnlp.wrapped_jnlp\" value=\"b64gz:#{encode(opts[:wrapped_jnlp])}\" />\n" if opts[:wrapped_jnlp]
     optional_props += "<property name=\"jnlp.default_jnlp\" value=\"#{opts[:default_jnlp]}\" />\n" if opts[:default_jnlp]
 
     wrapped_content.gsub!("${optional_props}", optional_props)
