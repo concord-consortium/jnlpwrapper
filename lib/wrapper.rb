@@ -32,15 +32,9 @@ module Wrapper
     end
 
     optional_props = ""
-    if opts[:template] == :install
-      optional_props += "<property name=\"product_old_versions\" value=\"#{opts[:old_versions]}\" />\n" if opts[:old_versions]
-      optional_props += "<property name=\"wrapped_jnlp\" value=\"#{opts[:wrapped_jnlp]}\" />\n" if opts[:wrapped_jnlp]
-      optional_props += "<property name=\"default_jnlp\" value=\"#{opts[:default_jnlp]}\" />\n" if opts[:default_jnlp]
-    else
-      optional_props += "<property name=\"jnlp.product_old_versions\" value=\"#{opts[:old_versions]}\" />\n" if opts[:old_versions]
-      optional_props += "<property name=\"jnlp.wrapped_jnlp\" value=\"#{opts[:wrapped_jnlp]}\" />\n" if opts[:wrapped_jnlp]
-      optional_props += "<property name=\"jnlp.default_jnlp\" value=\"#{opts[:default_jnlp]}\" />\n" if opts[:default_jnlp]
-    end
+    optional_props += "<property name=\"jnlp.product_old_versions\" value=\"#{opts[:old_versions]}\" />\n" if opts[:old_versions]
+    optional_props += "<property name=\"jnlp.wrapped_jnlp\" value=\"#{opts[:wrapped_jnlp]}\" />\n" if opts[:wrapped_jnlp]
+    optional_props += "<property name=\"jnlp.default_jnlp\" value=\"#{opts[:default_jnlp]}\" />\n" if opts[:default_jnlp]
 
     wrapped_content.gsub!("${optional_props}", optional_props)
 
