@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<jnlp spec="1.0+" codebase="http://jnlp.concord.org/dev" href="${href}">
+<jnlp spec="1.0+" codebase="http://jars.dev.concord.org/dev3" href="${href}">
   <information>
     <title>${project} ${version}</title>
     <vendor>${vendor}</vendor>
@@ -14,18 +14,25 @@
   <resources os="Mac OS X" arch="ppc i386">
     <j2se version="1.5" max-heap-size="${max_heap}m" initial-heap-size="32m"/>
   </resources>
+
   <resources os="Mac OS X" arch="x86_64">
-    <j2se version="1.5" max-heap-size="${max_heap}m" initial-heap-size="32m" java-vm-args="-d32"/>
+    <j2se version="1.7" max-heap-size="${max_heap}m" initial-heap-size="32m"/>
+    <j2se java-vm-args="-d32" version="1.5" max-heap-size="${max_heap}m" initial-heap-size="32m"/>
+  </resources>
+
+  <resources os="Mac OS X">
+    <j2se version="1.7" max-heap-size="${max_heap}m" initial-heap-size="32m"/>
+    <j2se java-vm-args="-d32" version="1.6" max-heap-size="${max_heap}m" initial-heap-size="32m"/>
   </resources>
 
   <resources>
     <j2se version="1.5+" max-heap-size="${max_heap}m" initial-heap-size="32m"/>
-    <jar href="org/concord/utilities/response-cache/response-cache-0.1.0-20090925.200020-20.jar" />
-    <jar href="org/concord/jnlp2shell/jnlp2shell-1.0-20091023.175900-196.jar" main="true" />
-    <property name="vendor" value="${vendor}"/>
-    <property name="product_name" value="${project}"/>
-    <property name="product_version" value="${version}"/>
-    <property name="not_found_url" value="${not_found}"/>
+    <jar href="org/concord/utilities/response-cache/response-cache-0.1.0-20140103.181809-221.jar"/>
+    <jar href="org/concord/jnlp2shell/jnlp2shell-1.0-20131031.044124-462.jar" main="true"/>
+    <property name="jnlp.vendor" value="${vendor}"/>
+    <property name="jnlp.product_name" value="${project}"/>
+    <property name="jnlp.product_version" value="${version}"/>
+    <property name="jnlp.not_found_url" value="${not_found}"/>
     ${optional_props}
   </resources>
   <application-desc main-class="org.concord.LaunchJnlp">

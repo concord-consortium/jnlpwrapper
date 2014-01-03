@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<jnlp spec="1.0+" codebase="http://jnlp.concord.org/dev3">
+<jnlp spec="1.0+" codebase="http://jars.dev.concord.org/dev3">
   <information>
     <title>${project} ${version}</title>
     <vendor>${vendor}</vendor>
