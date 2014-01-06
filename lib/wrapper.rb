@@ -6,6 +6,9 @@ module Wrapper
   require 'base64'
   require 'zlib'
 
+  require 'app_config'
+  CONFIG = AppConfig.config
+
   INSTALL_APP = "http://install.diy.concord.org"
 
   @@template_content = {}
@@ -23,6 +26,13 @@ module Wrapper
     gz.write str
     gz.close
     Base64.encode64(out.string).gsub(/\n/, '')
+  end
+
+  def self.is_valid_jnlp(jnlp=nil)
+    return false if jnlp.nil?
+    return true unless CONFIG[:valid_domains]
+    return true if jnlp =~ %r!^http(s)?://[^/]*(#{CONFIG[:valid_domains].join('|')})/!
+    return false
   end
 
   def self.wrap(opts = {}) # wrapped_jnlp, href, vendor, project, version, old_versions, default_jnlp, max_heap
@@ -44,8 +54,8 @@ module Wrapper
 
     optional_props = ""
     optional_props += "<property name=\"jnlp.product_old_versions\" value=\"#{opts[:old_versions]}\" />\n" if opts[:old_versions]
-    optional_props += "<property name=\"jnlp.wrapped_jnlp\" value=\"b64gz:#{encode(opts[:wrapped_jnlp])}\" />\n" if opts[:wrapped_jnlp]
-    optional_props += "<property name=\"jnlp.default_jnlp\" value=\"#{opts[:default_jnlp]}\" />\n" if opts[:default_jnlp]
+    optional_props += "<property name=\"jnlp.wrapped_jnlp\" value=\"b64gz:#{encode(opts[:wrapped_jnlp])}\" />\n" if is_valid_jnlp(opts[:wrapped_jnlp])
+    optional_props += "<property name=\"jnlp.default_jnlp\" value=\"#{opts[:default_jnlp]}\" />\n" if is_valid_jnlp(opts[:default_jnlp])
 
     wrapped_content.gsub!("${optional_props}", optional_props)
 
