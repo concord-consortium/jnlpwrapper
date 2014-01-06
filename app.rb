@@ -3,7 +3,9 @@ require 'bundler'
 
 Bundler.require
 
-require File.dirname(__FILE__) +'/lib/wrapper'
+$LOAD_PATH.unshift 'lib'
+
+require 'wrapper'
 
 configure do
   set :public_folder, File.dirname(__FILE__) + '/public'
