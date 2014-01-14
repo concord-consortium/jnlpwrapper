@@ -30,6 +30,8 @@
     <property name="jnlp.product_version" value="${version}"/>
     <property name="jnlp.skip_not_found_dialog" value="true"/>
     <property name="jnlp.install_if_not_found" value="true"/>
+    <property name="jnlp.cache_loc" value="jars"/>
+    <property name="jnlp.jnlp2shell.compact_paths" value="true"/>
   </resources>
   <application-desc main-class='org.concord.LaunchJnlp' />
 </jnlp>
