@@ -33,6 +33,8 @@
     <property name="jnlp.product_name" value="${project}"/>
     <property name="jnlp.product_version" value="${version}"/>
     <property name="jnlp.not_found_url" value="${not_found}"/>
+    <property name="jnlp.install_if_not_found" value="false"/>
+    <property name="jnlp.skip_not_found_dialog" value="false"/>
     ${optional_props}
   </resources>
   <application-desc main-class="org.concord.LaunchJnlp">
