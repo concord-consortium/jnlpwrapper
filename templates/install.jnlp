@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<jnlp spec="1.0+" codebase="http://jars.dev.concord.org/dev3" href="${href}">
+<jnlp spec="1.0+" codebase="http://jars.dev.concord.org/dev4" href="${href}">
   <information>
     <title>${project} ${version}</title>
     <vendor>${vendor}</vendor>
@@ -28,7 +28,7 @@
   <resources>
     <j2se version="1.5+" max-heap-size="${max_heap}m" initial-heap-size="32m"/>
     <jar href="org/concord/utilities/response-cache/response-cache-0.1.0-20140107.154611-222.jar"/>
-    <jar href="org/concord/jnlp2shell/jnlp2shell-1.0-20140107.154449-466.jar" main="true"/>
+    <jar href="org/concord/jnlp2shell/jnlp2shell-1.0-20140114.164730-467.jar" main="true"/>
     <property name="jnlp.vendor" value="${vendor}"/>
     <property name="jnlp.product_name" value="${project}"/>
     <property name="jnlp.product_version" value="${version}"/>
