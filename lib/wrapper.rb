@@ -41,8 +41,14 @@ module Wrapper
     raise "Missing required option :project" unless opts[:project]
     raise "Missing required option :version" unless opts[:version]
     raise "Missing required option :template" unless opts[:template]
+
+    # Force moving from jnlp.concord.org to jars.dev.concord.org
+    opts[:href] = opts[:href].sub("jnlp.concord.org","jars.dev.concord.org")
+    opts[:wrapped_jnlp] = opts[:wrapped_jnlp].sub("jnlp.concord.org","jars.dev.concord.org") if is_valid_jnlp(opts[:wrapped_jnlp])
+    opts[:default_jnlp] = opts[:default_jnlp].sub("jnlp.concord.org","jars.dev.concord.org") if is_valid_jnlp(opts[:default_jnlp])
+
     opts = {
-      :max_heap => 128,
+      :max_heap => 512,
       :url_base => (opts[:href] || "").sub(/[^\/]+\/[^\/]+\.jnlp.*$/, ""),
       :not_found => "#{INSTALL_APP}/#{opts[:project]}/#{opts[:version]}"
     }.merge(opts)
@@ -54,8 +60,14 @@ module Wrapper
 
     optional_props = ""
     optional_props += "<property name=\"jnlp.product_old_versions\" value=\"#{opts[:old_versions]}\" />\n" if opts[:old_versions]
-    optional_props += "<property name=\"jnlp.wrapped_jnlp\" value=\"b64gz:#{encode(opts[:wrapped_jnlp])}\" />\n" if is_valid_jnlp(opts[:wrapped_jnlp])
     optional_props += "<property name=\"jnlp.default_jnlp\" value=\"#{opts[:default_jnlp]}\" />\n" if is_valid_jnlp(opts[:default_jnlp])
+    if is_valid_jnlp(opts[:wrapped_jnlp])
+      optional_props += "<property name=\"jnlp.wrapped_jnlp\" value=\"b64gz:#{encode(opts[:wrapped_jnlp])}\" />\n"
+      if opts[:wrapped_jnlp] =~ /jars\.dev\.concord\.org/
+        optional_props += "<property name=\"jnlp.jnlp2shell.static_www\" value=\"true\"/>"
+        optional_props += "<property name=\"jnlp.jnlp2shell.mirror_host\" value=\"jars.dev.concord.org\"/>"
+      end
+    end
 
     wrapped_content.gsub!("${optional_props}", optional_props)
 
