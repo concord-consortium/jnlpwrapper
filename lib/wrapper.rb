@@ -66,6 +66,7 @@ module Wrapper
       if opts[:wrapped_jnlp] =~ /\.concord\.org/
         optional_props += "<property name=\"jnlp.jnlp2shell.static_www\" value=\"true\"/>\n"
         optional_props += "<property name=\"jnlp.jnlp2shell.mirror_host\" value=\"jars.dev.concord.org\"/>\n"
+        optional_props += "<property name=\"jnlp.jnlp2shell.skip_mirror_for_jnlp\" value=\"true\"/>\n" unless opts[:wrapped_jnlp] =~ /jars\.dev\.concord\.org/
       end
     end
 
