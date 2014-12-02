@@ -32,7 +32,7 @@ get '/:project/:version.jnlp' do
   content_type :jnlp
   last_modified(Time.now)
   ua = useragent
-  if ua.platform == "Macintosh" && ua.os =~ /10\.9(\.\d+)?$/
+  if ua.platform == "Macintosh" && ua.os =~ /10\.(\d+)(\.\d+)?$/ && $1.to_i >= 9
     #redirect to the ccla file
     redirect request.fullpath.sub(/\.jnlp/, '.ccla')
   else
@@ -70,7 +70,7 @@ get '/jcl/:project/:version.jnlp' do
   content_type :jnlp
   last_modified(Time.now)
   ua = useragent
-  if ua.platform == "Macintosh" && ua.os =~ /10\.9(\.\d+)?$/
+  if ua.platform == "Macintosh" && ua.os =~ /10\.(\d+)(\.\d+)?$/ && $1.to_i >= 9
     #redirect to the ccla file
     redirect request.fullpath.sub(/\.jnlp/, '.ccla')
   else
