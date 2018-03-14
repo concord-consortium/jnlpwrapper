@@ -22,8 +22,8 @@
   </resources>
   <resources>
     <j2se version="1.5+" max-heap-size="512m" initial-heap-size="32m"/>
-    <jar href="org/concord/utilities/response-cache/response-cache-0.1.0-20140107.154611-222.jar"/>
-    <jar href="org/concord/jnlp2shell/jnlp2shell-1.0-20140915.235654-475.jar" main="true"/>
+    <jar href="org/concord/utilities/response-cache/response-cache-0.1.0-20170510-1.jar"/>
+    <jar href="org/concord/jnlp2shell/jnlp2shell-1.0-20170510-1.jar" main="true"/>
     ${optional_props}
     <property name="jnlp.vendor" value="${vendor}"/>
     <property name="jnlp.product_name" value="${project}"/>
